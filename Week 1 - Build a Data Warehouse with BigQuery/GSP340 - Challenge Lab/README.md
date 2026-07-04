@@ -33,21 +33,21 @@ But a machine learning model is like a student — it can only learn from the st
 ### The Overall Data Flow
 
 ```mermaid
-flowchart LR
-    subgraph SOURCES["🌍 Public Data Sources (Google BigQuery Public Datasets)"]
-        A["Oxford Policy Tracker<br/>(government actions)"]
-        B["ECDC COVID-19 Data<br/>(population figures)"]
-        C["Census Bureau International<br/>(country areas)"]
-        D["Google Mobility Reports<br/>(movement of people)"]
+flowchart TD
+    subgraph SOURCES["Public Data Sources on BigQuery"]
+        A["Oxford Policy Tracker<br/>government actions"]
+        B["ECDC COVID-19 Data<br/>population figures"]
+        C["Census Bureau International<br/>country areas"]
+        D["Google Mobility Reports<br/>movement of people"]
     end
 
-    subgraph WAREHOUSE["🏗️ YOUR Data Warehouse"]
-        E["Task 1:<br/>Partitioned policy table"]
-        F["Task 2:<br/>Table with new empty columns"]
-        G["Tasks 3 & 4:<br/>Columns filled with real data"]
+    subgraph WAREHOUSE["Your Data Warehouse"]
+        E["Task 1<br/>Partitioned policy table"]
+        F["Task 2<br/>Table with new empty columns"]
+        G["Tasks 3 and 4<br/>Columns filled with real data"]
     end
 
-    H["🤖 Machine Learning Model<br/>(future step — not in this lab)"]
+    H["Machine Learning Model<br/>future step - not in this lab"]
 
     A --> E
     D --> F
@@ -112,14 +112,14 @@ WITHOUT partitioning:                WITH date partitioning:
 
 ```mermaid
 flowchart TD
-    A["📚 PUBLIC TABLE<br/>bigquery-public-data.covid19_govt_response.oxford_policy_tracker<br/>(ALL countries)"]
-    B{"Filter:<br/>Is the country GBR, BRA,<br/>CAN or USA?"}
-    C["❌ Excluded<br/>(analysed separately later)"]
-    D["✅ YOUR NEW TABLE<br/>covid.oxford_policy_tracker<br/>• Partitioned by date 📅<br/>• Expires after 2175 days ⏳"]
+    A["PUBLIC TABLE<br/>covid19_govt_response.oxford_policy_tracker<br/>all countries"]
+    B{"Is the country GBR, BRA, CAN or USA?"}
+    C["Excluded<br/>analysed separately later"]
+    D["YOUR NEW TABLE<br/>covid.oxford_policy_tracker<br/>partitioned by date<br/>expires after 2175 days"]
 
     A --> B
-    B -- "Yes" --> C
-    B -- "No (all other countries)" --> D
+    B -->|Yes| C
+    B -->|No| D
 ```
 
 ### Step 1 — Create the dataset (point-and-click)
@@ -172,15 +172,10 @@ The lab has pre-created a dataset `covid_data` containing the table `global_mobi
 
 ```mermaid
 flowchart LR
-    subgraph BEFORE["BEFORE (existing table)"]
-        A["global_mobility_tracker_data<br/>─────────────<br/>existing columns only"]
-    end
+    A["BEFORE<br/>global_mobility_tracker_data<br/>existing columns only"]
+    B["AFTER<br/>existing columns<br/>plus population INTEGER<br/>plus country_area FLOAT<br/>plus mobility RECORD<br/>with 6 average sub-columns"]
 
-    subgraph AFTER["AFTER (schema updated)"]
-        B["global_mobility_tracker_data<br/>─────────────<br/>existing columns<br/>➕ population (INTEGER)<br/>➕ country_area (FLOAT)<br/>➕ mobility (RECORD) 📦<br/>&nbsp;&nbsp;&nbsp;├ avg_retail<br/>&nbsp;&nbsp;&nbsp;├ avg_grocery<br/>&nbsp;&nbsp;&nbsp;├ avg_parks<br/>&nbsp;&nbsp;&nbsp;├ avg_transit<br/>&nbsp;&nbsp;&nbsp;├ avg_workplace<br/>&nbsp;&nbsp;&nbsp;└ avg_residential"]
-    end
-
-    A -- "ALTER TABLE<br/>(add columns)" --> B
+    A -->|ALTER TABLE| B
 ```
 
 **The `mobility` column is special** — it's a **RECORD** (a column containing six sub-columns), like one labelled box on a shelf that itself contains six smaller labelled compartments. This keeps all the movement data neatly grouped together.
@@ -238,17 +233,12 @@ A colleague gave us a **template query** (originally used for daily case counts)
 
 ```mermaid
 flowchart LR
-    subgraph YOURS["YOUR TABLE (t0)<br/>consolidate_covid_tracker_data"]
-        A["country: Ireland<br/>alpha_3_code: IRL<br/>population: ❓ NULL"]
-    end
+    A["YOUR TABLE t0<br/>country: Ireland<br/>alpha_3_code: IRL<br/>population: NULL"]
+    B["ECDC PUBLIC TABLE t2<br/>country_territory_code: IRL<br/>pop_data_2019: 4904226"]
+    C["RESULT<br/>population: 4904226"]
 
-    subgraph PUBLIC["ECDC PUBLIC TABLE (t2)<br/>covid_19_geographic_distribution_worldwide"]
-        B["country_territory_code: IRL<br/>pop_data_2019: 4,904,226"]
-    end
-
-    A -- "MATCH on<br/>IRL = IRL" --- B
-    B -- "copy value ➡️" --> C["population: 4,904,226 ✅"]
-    A -.-> C
+    A -->|match on IRL| C
+    B -->|copy value| C
 ```
 
 Both tables use the **same 3-letter country code** (ISO alpha-3: `IRL`, `FRA`, `DEU`…), so matching rows is straightforward — like matching two contact lists using phone numbers.
@@ -297,12 +287,12 @@ Unlike Task 3, the Census table **does not have a 3-letter ISO country code**. T
 
 ```mermaid
 flowchart LR
-    A["🗺️ CENSUS TABLE<br/>country_names_area<br/>─────────<br/>country_code (FIPS): EI<br/>country_area: 68,890 km²"]
-    B["🔁 TRANSLATOR TABLE<br/>utility_us.country_code_iso<br/>─────────<br/>fips_code: EI<br/>alpha_3_code: IRL"]
-    C["📋 YOUR TABLE<br/>consolidate_covid_tracker_data<br/>─────────<br/>alpha_3_code: IRL<br/>country_area: ❓ ➡️ 68,890 ✅"]
+    A["CENSUS TABLE<br/>country_code FIPS: EI<br/>country_area: 68890"]
+    B["TRANSLATOR TABLE<br/>utility_us.country_code_iso<br/>fips_code: EI<br/>alpha_3_code: IRL"]
+    C["YOUR TABLE<br/>alpha_3_code: IRL<br/>country_area: 68890"]
 
-    A -- "JOIN on<br/>FIPS code (EI = EI)" --> B
-    B -- "JOIN on<br/>ISO code (IRL = IRL)" --> C
+    A -->|JOIN on FIPS code| B
+    B -->|JOIN on ISO code| C
 ```
 
 Think of it like this: the Census table speaks *French* (FIPS codes), your table speaks *English* (ISO codes), and the translator table is a bilingual dictionary connecting the two.
@@ -451,13 +441,16 @@ WHERE t0.alpha_3_code = t2.alpha_3_code;
 
 ```mermaid
 flowchart LR
-    T1["✅ Task 1<br/>Copy + partition<br/>policy data<br/>(exclude 4 countries)"]
-    T2["✅ Task 2<br/>Add empty columns<br/>(population, area,<br/>mobility record)"]
-    T3["✅ Task 3<br/>Fill population<br/>via ECDC join"]
-    T4["✅ Task 4<br/>Fill country area<br/>via Census + translator"]
-    DONE["🏆 100%<br/>Skill Badge<br/>Earned!"]
+    T1["Task 1<br/>Copy and partition<br/>policy data"]
+    T2["Task 2<br/>Add empty columns"]
+    T3["Task 3<br/>Fill population<br/>via ECDC join"]
+    T4["Task 4<br/>Fill country area<br/>via Census bridge"]
+    DONE["Skill Badge Earned"]
 
-    T1 --> T2 --> T3 --> T4 --> DONE
+    T1 --> T2
+    T2 --> T3
+    T3 --> T4
+    T4 --> DONE
 ```
 
 **Key lessons learned:**
