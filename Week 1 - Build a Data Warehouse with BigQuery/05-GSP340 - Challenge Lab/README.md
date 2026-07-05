@@ -2,6 +2,11 @@
 
 > **A beginner-friendly, step-by-step guide** — written so that even someone with a non-technical background can understand *what* we are doing, *why* we are doing it, and *how* each SQL query works.
 
+> 🧭 **Learning path** (Build a Data Warehouse with BigQuery skill badge):
+> [01 · GSP413 — Joins and Unions](../01-GSP413%20-%20Creating%20a%20Data%20Warehouse%20Through%20Joins%20and%20Unions/README.md) → [02 · GSP414 — Date-Partitioned Tables](../02-GSP414%20-%20Creating%20Date-Partitioned%20Tables%20in%20BigQuery/README.md) → [03 · GSP412 — Data Join Pitfalls](../03-GSP412%20-%20Troubleshooting%20and%20Solving%20Data%20Join%20Pitfalls/README.md) → [04 · GSP416 — JSON, Arrays & Structs](../04-GSP416%20-%20Working%20with%20JSON,%20Arrays,%20and%20Structs%20in%20BigQuery/README.md) → **05 · GSP340 — this Challenge Lab**
+>
+> **Prerequisites:** complete the earlier labs first — this challenge gives *no step-by-step instructions*. You need: `CREATE TABLE ... AS SELECT` and JOINs (from **GSP413**), `PARTITION BY` with `partition_expiration_days` (from **GSP414** — Task 1 here uses the exact same pattern with 2175 days instead of 730), deduplicating join sources with `DISTINCT` / `GROUP BY` (from **GSP412** — that's what prevents the "must match at most one source row" error in Tasks 3–4), and RECORD/STRUCT columns (from **GSP416** — Task 2 here adds a STRUCT column with six sub-fields).
+
 ---
 
 ## 📋 Table of Contents
@@ -34,20 +39,20 @@ But a machine learning model is like a student — it can only learn from the st
 
 ```mermaid
 flowchart TD
-    subgraph SOURCES["Public Data Sources on BigQuery"]
-        A["Oxford Policy Tracker<br/>government actions"]
-        B["ECDC COVID-19 Data<br/>population figures"]
-        C["Census Bureau International<br/>country areas"]
-        D["Google Mobility Reports<br/>movement of people"]
+    subgraph SOURCES [Public Data Sources on BigQuery]
+        A[Oxford Policy Tracker - government actions]
+        B[ECDC COVID-19 Data - population figures]
+        C[Census Bureau International - country areas]
+        D[Google Mobility Reports - movement of people]
     end
 
-    subgraph WAREHOUSE["Your Data Warehouse"]
-        E["Task 1<br/>Partitioned policy table"]
-        F["Task 2<br/>Table with new empty columns"]
-        G["Tasks 3 and 4<br/>Columns filled with real data"]
+    subgraph WAREHOUSE [Your Data Warehouse]
+        E[Task 1 - Partitioned policy table]
+        F[Task 2 - Table with new empty columns]
+        G[Tasks 3 and 4 - Columns filled with real data]
     end
 
-    H["Machine Learning Model<br/>future step - not in this lab"]
+    H[Machine Learning Model - future step, not in this lab]
 
     A --> E
     D --> F
@@ -112,10 +117,10 @@ WITHOUT partitioning:                WITH date partitioning:
 
 ```mermaid
 flowchart TD
-    A["PUBLIC TABLE<br/>covid19_govt_response.oxford_policy_tracker<br/>all countries"]
-    B{"Is the country GBR, BRA, CAN or USA?"}
-    C["Excluded<br/>analysed separately later"]
-    D["YOUR NEW TABLE<br/>covid.oxford_policy_tracker<br/>partitioned by date<br/>expires after 2175 days"]
+    A[PUBLIC TABLE oxford_policy_tracker - all countries]
+    B{Is the country GBR, BRA, CAN or USA?}
+    C[Excluded - analysed separately later]
+    D[YOUR NEW TABLE covid.oxford_policy_tracker - partitioned by date, expires after 2175 days]
 
     A --> B
     B -->|Yes| C
@@ -172,8 +177,8 @@ The lab has pre-created a dataset `covid_data` containing the table `global_mobi
 
 ```mermaid
 flowchart LR
-    A["BEFORE<br/>global_mobility_tracker_data<br/>existing columns only"]
-    B["AFTER<br/>existing columns<br/>plus population INTEGER<br/>plus country_area FLOAT<br/>plus mobility RECORD<br/>with 6 average sub-columns"]
+    A[BEFORE - existing columns only]
+    B[AFTER - plus population INTEGER, country_area FLOAT and mobility RECORD with 6 sub-columns]
 
     A -->|ALTER TABLE| B
 ```
@@ -233,9 +238,9 @@ A colleague gave us a **template query** (originally used for daily case counts)
 
 ```mermaid
 flowchart LR
-    A["YOUR TABLE t0<br/>country: Ireland<br/>alpha_3_code: IRL<br/>population: NULL"]
-    B["ECDC PUBLIC TABLE t2<br/>country_territory_code: IRL<br/>pop_data_2019: 4904226"]
-    C["RESULT<br/>population: 4904226"]
+    A[YOUR TABLE t0 - Ireland, code IRL, population NULL]
+    B[ECDC PUBLIC TABLE t2 - code IRL, pop_data_2019 is 4904226]
+    C[RESULT - population 4904226]
 
     A -->|match on IRL| C
     B -->|copy value| C
@@ -287,9 +292,9 @@ Unlike Task 3, the Census table **does not have a 3-letter ISO country code**. T
 
 ```mermaid
 flowchart LR
-    A["CENSUS TABLE<br/>country_code FIPS: EI<br/>country_area: 68890"]
-    B["TRANSLATOR TABLE<br/>utility_us.country_code_iso<br/>fips_code: EI<br/>alpha_3_code: IRL"]
-    C["YOUR TABLE<br/>alpha_3_code: IRL<br/>country_area: 68890"]
+    A[CENSUS TABLE - FIPS code EI, country_area 68890]
+    B[TRANSLATOR TABLE - fips_code EI maps to alpha_3_code IRL]
+    C[YOUR TABLE - alpha_3_code IRL, country_area 68890]
 
     A -->|JOIN on FIPS code| B
     B -->|JOIN on ISO code| C
@@ -441,11 +446,11 @@ WHERE t0.alpha_3_code = t2.alpha_3_code;
 
 ```mermaid
 flowchart LR
-    T1["Task 1<br/>Copy and partition<br/>policy data"]
-    T2["Task 2<br/>Add empty columns"]
-    T3["Task 3<br/>Fill population<br/>via ECDC join"]
-    T4["Task 4<br/>Fill country area<br/>via Census bridge"]
-    DONE["Skill Badge Earned"]
+    T1[Task 1 - Copy and partition policy data]
+    T2[Task 2 - Add empty columns]
+    T3[Task 3 - Fill population via ECDC join]
+    T4[Task 4 - Fill country area via Census bridge]
+    DONE[Skill Badge Earned]
 
     T1 --> T2
     T2 --> T3
