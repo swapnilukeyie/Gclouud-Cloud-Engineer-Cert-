@@ -17,6 +17,7 @@
 9. [Task 6 — Confirm Partition Expiration Is Working](#9-task-6--confirm-partition-expiration-is-working)
 10. [Quiz Answers — All in One Place](#10-quiz-answers--all-in-one-place)
 11. [Quick Reference — All Queries in One Place](#11-quick-reference--all-queries-in-one-place)
+12. [Command-Line Alternatives (Cloud Shell)](#12-command-line-alternatives-cloud-shell)
 
 ---
 
@@ -495,6 +496,34 @@ WHERE station_name = 'WAKAYAMA'
 GROUP BY station_name, date, today, month, partition_age
 ORDER BY partition_age DESC;   -- oldest first; max age must be <= 730
 ```
+
+---
+
+## 12. Command-Line Alternatives (Cloud Shell)
+
+Everything this lab does with console clicks can also be done from **Cloud Shell** — the `gcloud` and `bq` tools come pre-installed.
+
+### Universal setup commands (work in any lab)
+
+```bash
+gcloud config set project PROJECT_ID          # select a project
+gcloud services enable bigquery.googleapis.com  # enable a service API
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:someone@example.com" --role="roles/bigquery.user"   # grant IAM role
+```
+
+### UI step → CLI equivalent for this lab
+
+| Console (UI) step | Cloud Shell command |
+|---|---|
+| Task 1: Create dataset `ecommerce` | `bq mk --dataset $GOOGLE_CLOUD_PROJECT:ecommerce` |
+| **Query Validator** ("This query will process 1.74 GB") | `bq query --use_legacy_sql=false --dry_run 'SELECT ...'` — a dry run reports bytes-to-scan **without running or paying** |
+| Run a query | `bq query --use_legacy_sql=false 'SELECT ...'` |
+| Task 2: Details tab → confirm "Partitioned by: Day" | `bq show --format=prettyjson ecommerce.partition_by_day` — look for the `timePartitioning` block |
+| Task 4: + Add data → search public datasets | No exact CLI twin — just query the fully-qualified name: `bq ls bigquery-public-data:noaa_gsod` lists its tables |
+| Task 5: Create table with partition expiration | Same SQL via `bq query`; or set expiry on an existing table: `bq update --time_partitioning_expiration 63072000 ecommerce.days_with_rain` (seconds: 730 days) |
+
+> 💡 The `--dry_run` flag is this lab's superpower on the CLI — Tasks 2–3's whole lesson (1.74 GB vs 25 KB vs 0 B) can be demonstrated without spending a single byte of quota.
 
 ---
 

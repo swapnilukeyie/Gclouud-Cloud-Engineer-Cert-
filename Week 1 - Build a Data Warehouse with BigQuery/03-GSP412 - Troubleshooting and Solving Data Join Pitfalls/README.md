@@ -17,6 +17,7 @@
 9. [Task 6 — Join Pitfall Solutions](#9-task-6--join-pitfall-solutions)
 10. [Quiz Answers — All in One Place](#10-quiz-answers--all-in-one-place)
 11. [Quick Reference — All Queries in One Place](#11-quick-reference--all-queries-in-one-place)
+12. [Command-Line Alternatives (Cloud Shell)](#12-command-line-alternatives-cloud-shell)
 
 ---
 
@@ -631,6 +632,35 @@ FROM `data-to-insights.ecommerce.all_sessions_raw` AS website
 CROSS JOIN ecommerce.site_wide_promotion
 WHERE v2ProductCategory LIKE '%Clearance%';
 ```
+
+---
+
+## 12. Command-Line Alternatives (Cloud Shell)
+
+Everything this lab does with console clicks can also be done from **Cloud Shell** — the `gcloud` and `bq` tools come pre-installed.
+
+### Universal setup commands (work in any lab)
+
+```bash
+gcloud config set project PROJECT_ID            # select a project
+gcloud services enable bigquery.googleapis.com  # enable a service API
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:someone@example.com" --role="roles/bigquery.jobUser"  # grant IAM role
+```
+
+### UI step → CLI equivalent for this lab
+
+| Console (UI) step | Cloud Shell command |
+|---|---|
+| Task 1: Create dataset `ecommerce` | `bq mk --dataset $GOOGLE_CLOUD_PROJECT:ecommerce` |
+| Task 2: **Star** the `data-to-insights` project | No CLI needed — starring is just a UI bookmark. On the CLI you always use fully-qualified names: `bq ls data-to-insights:ecommerce` |
+| Task 3: Schema tab — examine the fields | `bq show --schema --format=prettyjson data-to-insights:ecommerce.all_sessions_raw` |
+| Run any query (key-uniqueness checks, joins) | `bq query --use_legacy_sql=false 'SELECT ...'` |
+| Task 6: Create the promotion table | `bq query --use_legacy_sql=false 'CREATE OR REPLACE TABLE ecommerce.site_wide_promotion AS SELECT .05 AS discount'` |
+| Task 6: INSERT the extra discount rows | `bq query --use_legacy_sql=false 'INSERT INTO ecommerce.site_wide_promotion (discount) VALUES (.04),(.03)'` |
+| Check row counts (82 vs 246 result sizes) | add `--format=csv` and pipe to `wc -l`, e.g. `bq query --use_legacy_sql=false --format=csv 'SELECT ...' \| wc -l` |
+
+> 💡 CLI bonus for *this* lab's theme: `bq query --dry_run` also warns you about cost **before** an accidental many-to-many join scans (or returns) billions of rows.
 
 ---
 

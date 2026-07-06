@@ -18,6 +18,7 @@
 10. [Tasks 7–9 — Lab Questions](#10-tasks-79--lab-questions)
 11. [Quiz Answers — All in One Place](#11-quiz-answers--all-in-one-place)
 12. [Quick Reference — All Queries in One Place](#12-quick-reference--all-queries-in-one-place)
+13. [Command-Line Alternatives (Cloud Shell)](#13-command-line-alternatives-cloud-shell)
 
 ---
 
@@ -656,6 +657,36 @@ FROM racing.race_results AS r
 , UNNEST(p.splits) AS split_time
 WHERE split_time = 23.2;
 ```
+
+---
+
+## 13. Command-Line Alternatives (Cloud Shell)
+
+Everything this lab does with console clicks can also be done from **Cloud Shell** — the `gcloud` and `bq` tools come pre-installed. This lab's JSON-loading steps are *especially* nicer on the CLI.
+
+### Universal setup commands (work in any lab)
+
+```bash
+gcloud config set project PROJECT_ID            # select a project
+gcloud services enable bigquery.googleapis.com  # enable a service API
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:someone@example.com" --role="roles/bigquery.dataEditor"  # grant IAM role
+```
+
+### UI step → CLI equivalent for this lab
+
+| Console (UI) step | Cloud Shell command |
+|---|---|
+| Task 1: Create dataset `fruit_store` | `bq mk --dataset $GOOGLE_CLOUD_PROJECT:fruit_store` |
+| Task 2: Create table from GCS JSON, **auto-detect schema** | `bq load --source_format=NEWLINE_DELIMITED_JSON --autodetect fruit_store.fruit_details gs://spls/gsp416/data-insights-course/labs/optimizing-for-performance/shopping_cart.json` |
+| Task 5: Star `bigquery-public-data` | Not needed on CLI — query fully-qualified names directly; browse with `bq ls bigquery-public-data:google_analytics_sample` |
+| Count RECORD/REPEATED fields in the GA schema | `bq show --schema --format=prettyjson bigquery-public-data:google_analytics_sample.ga_sessions_20170801 \| grep -c '"type": "RECORD"'` (and `'"mode": "REPEATED"'`) |
+| Task 6: Create dataset `racing` | `bq mk --dataset $GOOGLE_CLOUD_PROJECT:racing` |
+| Task 6: Load race JSON with a **manual schema** ("Edit as text") | Save the schema JSON to `race_schema.json`, then: `bq load --source_format=NEWLINE_DELIMITED_JSON racing.race_results gs://spls/gsp416/data-insights-course/labs/optimizing-for-performance/race_results.json race_schema.json` |
+| Preview the loaded table | `bq head racing.race_results` |
+| All UNNEST queries (Tasks 7–9) | Unchanged inside `bq query --use_legacy_sql=false '...'` |
+
+> 💡 `bq load` is the command behind the console's whole "Create table from GCS" dialog — source format, schema file, and table name as three arguments.
 
 ---
 

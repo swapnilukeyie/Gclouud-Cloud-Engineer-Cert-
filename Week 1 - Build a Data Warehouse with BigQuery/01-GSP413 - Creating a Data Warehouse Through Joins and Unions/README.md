@@ -19,6 +19,7 @@
 6. [Task 4 — Append Additional Records](#6-task-4--append-additional-records)
 7. [Quiz Answers — All in One Place](#7-quiz-answers--all-in-one-place)
 8. [Quick Reference — All Queries in One Place](#8-quick-reference--all-queries-in-one-place)
+9. [Command-Line Alternatives (Cloud Shell)](#9-command-line-alternatives-cloud-shell)
 
 ---
 
@@ -475,6 +476,45 @@ SELECT * FROM `ecommerce.sales_by_sku_2017*`;
 SELECT * FROM `ecommerce.sales_by_sku_2017*`
 WHERE _TABLE_SUFFIX = '0802';
 ```
+
+---
+
+## 9. Command-Line Alternatives (Cloud Shell)
+
+Everything this lab does with console clicks can also be done from **Cloud Shell** (the >_ icon in the console's top bar) — the `gcloud` and `bq` tools come pre-installed. Knowing both ways matters: the UI is great for learning, but the CLI is what you script, automate, and get tested on.
+
+### Universal setup commands (work in any lab)
+
+```bash
+# who am I / which project am I in?
+gcloud auth list
+gcloud config list project
+
+# select (switch to) a project
+gcloud config set project PROJECT_ID
+
+# see which service APIs are enabled, and enable one
+gcloud services list --enabled
+gcloud services enable bigquery.googleapis.com
+
+# grant a role to a user on the project (IAM "approval")
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:someone@example.com" --role="roles/bigquery.dataViewer"
+```
+
+### UI step → CLI equivalent for this lab
+
+| Console (UI) step | Cloud Shell command |
+|---|---|
+| Task 1: Create dataset `ecommerce` (⋮ → Create dataset, Location `us`) | `bq mk --dataset --location=US $GOOGLE_CLOUD_PROJECT:ecommerce` |
+| Run any query in the editor | `bq query --use_legacy_sql=false 'SELECT ... FROM ...'` |
+| Task 2: Copy the products table | `bq query --use_legacy_sql=false 'CREATE OR REPLACE TABLE ecommerce.products AS SELECT * FROM \`data-to-insights.ecommerce.products\`'` |
+| Preview tab (see sample rows) | `bq head -n 10 ecommerce.products` |
+| Schema tab (see field types) | `bq show --schema --format=prettyjson ecommerce.products` |
+| List tables in the dataset | `bq ls ecommerce` |
+| Task 4: Preview the inserted record | `bq query --use_legacy_sql=false 'SELECT * FROM ecommerce.sales_by_sku_20170802'` |
+
+> 💡 All the CREATE TABLE / INSERT / UNION / wildcard queries in [solutions.sql](solutions.sql) run unchanged inside `bq query --use_legacy_sql=false '...'` — the SQL is identical; only the "Run button" changes.
 
 ---
 

@@ -19,6 +19,7 @@
 6. [Task 4 — Fill In the Country Area Column](#6-task-4--fill-in-the-country-area-column)
 7. [Common Errors & How We Fixed Them](#7-common-errors--how-we-fixed-them)
 8. [Quick Reference — All Queries in One Place](#8-quick-reference--all-queries-in-one-place)
+9. [Command-Line Alternatives (Cloud Shell)](#9-command-line-alternatives-cloud-shell)
 
 ---
 
@@ -439,6 +440,34 @@ FROM (
 ) AS t2
 WHERE t0.alpha_3_code = t2.alpha_3_code;
 ```
+
+---
+
+## 9. Command-Line Alternatives (Cloud Shell)
+
+The whole challenge can be completed from **Cloud Shell** without touching the console UI — useful practice, since production data work is scripted, not clicked.
+
+### Universal setup commands (work in any lab)
+
+```bash
+gcloud config set project PROJECT_ID            # select a project
+gcloud services enable bigquery.googleapis.com  # enable a service API
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:someone@example.com" --role="roles/bigquery.admin"  # grant IAM role
+```
+
+### UI step → CLI equivalent for this lab
+
+| Console (UI) step | Cloud Shell command |
+|---|---|
+| Task 1: Create dataset `covid` with **Location = US** | `bq mk --dataset --location=US $GOOGLE_CLOUD_PROJECT:covid` |
+| Task 1: Partitioned CREATE TABLE query | `bq query --use_legacy_sql=false 'CREATE OR REPLACE TABLE covid.oxford_policy_tracker PARTITION BY date OPTIONS(partition_expiration_days=2175) AS SELECT * FROM \`bigquery-public-data.covid19_govt_response.oxford_policy_tracker\` WHERE alpha_3_code NOT IN ("GBR","BRA","CAN","USA")'` |
+| Verify partitioning + expiry | `bq show --format=prettyjson covid.oxford_policy_tracker` — check the `timePartitioning` block shows `expirationMs` |
+| Task 2: ALTER TABLE (add columns incl. STRUCT) | Same SQL inside `bq query --use_legacy_sql=false '...'` — the console's "Edit schema" button has no dedicated command; `bq update --schema` also works but can't use the friendly STRUCT syntax |
+| Tasks 3–4: the UPDATE ... FROM queries | Unchanged inside `bq query --use_legacy_sql=false '...'` (see [solutions.sql](solutions.sql)) |
+| "I can't see `covid_data` yet" | `bq ls` — re-run until the pre-created dataset appears |
+
+> 💡 Time-saver: `bq query` can read SQL from a file — `bq query --use_legacy_sql=false < solutions.sql` runs a single statement; loop over statements with a small bash script for the whole lab.
 
 ---
 
