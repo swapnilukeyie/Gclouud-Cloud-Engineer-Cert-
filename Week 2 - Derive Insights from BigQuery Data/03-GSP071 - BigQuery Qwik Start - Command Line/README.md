@@ -443,6 +443,21 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **Every `bq` command is secretly a *job*.** Loads, queries, copies — all become jobs you can inspect: `bq ls -j` lists recent jobs, `bq show -j JOB_ID` shows why one failed. This is your first stop when a `bq load` dies halfway.
+- **Preview is free, `SELECT *` is not.** `bq head -n 10 babynames.names2010` reads stored preview data at zero cost; `bq query "SELECT * ... LIMIT 10"` scans the *whole table* despite the LIMIT.
+- **Machine-readable output for scripting:** add `--format=json` or `--format=csv` to any `bq` command and pipe into `jq`/spreadsheets — e.g. `bq ls --format=json babynames | jq '.[].tableReference.tableId'`.
+- **Copy tables for free:** `bq cp babynames.names2010 babynames.names2010_backup` moves no query bytes — copying is a metadata operation.
+- **Oops-recovery (time travel):** BigQuery keeps 7 days of table history. `bq cp "babynames.names2010@-3600000" babynames.names2010_restored` restores the table as it was 1 hour (3,600,000 ms) ago — even after a bad overwrite.
+- **Free-tier numbers worth memorizing:** 1 TB of query processing and 10 GB of storage free per month — and **loading data is always free**.
+- **Exam tip — know your CLI tool split:** `gcloud` = most services · `bq` = BigQuery · `gsutil`/`gcloud storage` = Cloud Storage · `kubectl` = GKE. Questions love asking which tool does what.
+- **Cloud Shell quirk:** the VM is ephemeral but your **home directory persists** — the `yobXXXX.txt` files will still be there tomorrow, but anything installed outside `~` (e.g. `sudo apt install`) vanishes on reconnect.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

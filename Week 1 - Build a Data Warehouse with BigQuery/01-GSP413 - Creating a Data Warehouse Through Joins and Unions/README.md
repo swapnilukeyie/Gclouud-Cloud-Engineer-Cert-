@@ -518,6 +518,19 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **GoogleSQL is stricter about UNION than MySQL:** plain `UNION` is an *error* in BigQuery — you must write `UNION ALL` (keep duplicates) or `UNION DISTINCT` (remove them). The Week 2 Cloud SQL lab's bare `UNION` works only because MySQL defaults to DISTINCT.
+- **Wildcard-table fine print:** all matched tables must share a schema, wildcard query results are **never cached**, and the wildcard matches *views* never. That's three reasons the "better solution" really is a partitioned table.
+- **`CREATE OR REPLACE` silently destroys** the old table. When protecting existing data, use `CREATE TABLE IF NOT EXISTS` instead — and remember BigQuery **time travel** can rescue you: the pre-replace table is recoverable for 7 days.
+- **The whole `SAFE_` family:** `SAFE_DIVIDE` has siblings — `SAFE_CAST` (returns NULL instead of erroring on bad conversions) is the one you'll use most when cleaning messy string columns.
+- **`SELECT DISTINCT` across many columns is expensive** — BigQuery must compare entire rows. Deduplicating on the *key only* (via `GROUP BY`) before joining is both correct *and* cheaper.
+- **Exam tip:** know the difference between a **native table** (what you built here), an **external table** (queries data left in GCS), and a **view** (a saved query, no storage). CTAS statements like this lab's create native tables.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

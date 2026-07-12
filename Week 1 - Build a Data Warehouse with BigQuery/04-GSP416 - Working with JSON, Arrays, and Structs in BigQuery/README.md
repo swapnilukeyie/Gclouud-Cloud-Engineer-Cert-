@@ -690,6 +690,19 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **BigQuery now has a native `JSON` type** too — for *truly schemaless* data where fields change constantly. Rule of thumb: known structure → STRUCT/ARRAY (cheaper, typed, faster); unpredictable structure → JSON with `JSON_VALUE()` extraction.
+- **Taming wide structs:** `SELECT * EXCEPT(hits)` drops a huge nested column, `SELECT * REPLACE(UPPER(name) AS name)` transforms in place — both essential when a table has 32 STRUCTs like the GA sample.
+- **`UNNEST ... WITH OFFSET` keeps element positions:** `UNNEST(p.splits) AS split_time WITH OFFSET AS lap` tells you *which lap* each time belongs to — the natural follow-up question to Task 9 that plain UNNEST can't answer.
+- **Arrays can't contain NULLs** when written to a table (query-time arrays can) — a classic gotcha when `ARRAY_AGG`-ing a nullable column; fix with `ARRAY_AGG(x IGNORE NULLS)`.
+- **Why nested beats star schema in BigQuery** (exam favorite): storage is columnar, so unqueried nested fields cost nothing to skip, while JOINs always cost shuffle. Google's guidance: denormalize with nested/repeated fields *unless* the dimension changes frequently.
+- **Ordering inside the aggregate:** `ARRAY_AGG(pageTitle ORDER BY hitNumber)` builds the array in event order — without it, array order is *non-deterministic*, which bites people who assume insertion order.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

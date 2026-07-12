@@ -527,6 +527,19 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **Three ways to partition**, not one: by a **time-unit column** (this lab), by **ingestion time** (`_PARTITIONTIME` pseudo-column — when no date column exists), or by **integer range** (e.g. customer_id buckets). Exam questions test all three.
+- **Force the guardrail:** add `require_partition_filter = true` to OPTIONS and BigQuery *rejects* any query without a WHERE on the partition column — no more accidental full scans by teammates.
+- **Hard-cap your spend:** `bq query --maximum_bytes_billed=100000000 ...` makes the query *fail* if it would scan more than ~100 MB. Pair it with `--dry_run` and full-scan surprises become impossible.
+- **Partitioning's best friend is clustering:** `CLUSTER BY station_name` (up to 4 columns) sorts data *within* each partition, pruning further on non-date filters — the classic combo is `PARTITION BY date CLUSTER BY id`.
+- **Limits worth memorizing:** max **10,000 partitions** per table; daily partitioning of multi-year data fits comfortably, minute-level does not.
+- **Migrating legacy shards** (like `gsod1929…gsod2018`) is a real exam scenario: the standard answer is one wildcard `SELECT ... FROM \`gsod*\`` into a `PARTITION BY` table — exactly what Task 5 did.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

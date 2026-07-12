@@ -511,6 +511,20 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **Why can't WHERE use an alias?** SQL doesn't run in the order you write it. Logical execution order: `FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT` — the `SELECT` (where `AS num` is born) runs *after* `WHERE`, which is why `WHERE num > 100` fails but `ORDER BY num` works.
+- **Practice for free:** the [BigQuery Sandbox](https://cloud.google.com/bigquery/docs/sandbox) gives you BigQuery *without a billing account* — perfect for rerunning these queries outside lab time.
+- **Cloud SQL bills by the hour while running** (unlike serverless BigQuery). On your own account, stop an idle instance with `gcloud sql instances patch my-demo --activation-policy=NEVER` — and know that the lab's "Multiple zones" HA choice roughly **doubles** the cost.
+- **The header-row problem has a cleaner fix in BigQuery:** `bq load --skip_leading_rows=1 ...` skips CSV headers at load time. Cloud SQL's import has no such flag — that's the real reason this lab needed the `DELETE FROM ... WHERE num=0` trick.
+- **`gcloud sql connect` quietly does an IAM-ish favor:** it temporarily allowlists your client IP on the instance for ~5 minutes — that's why the connection "just works" from Cloud Shell without firewall setup.
+- **Exam classic — pick the right database:** frequent single-row reads/writes (shopping carts, user accounts) → **Cloud SQL**; scanning millions of rows for analysis → **BigQuery**. This exact trade-off appears in cert questions constantly.
+- **`WHERE duration>=1200` scanned the whole table** — after Week 1's partitioning lab you know the fix: partition by date (or cluster by duration) so filters prune data instead of scanning 83M rows.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

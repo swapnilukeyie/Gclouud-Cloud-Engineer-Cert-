@@ -664,6 +664,19 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **Make key-profiling a reflex.** Before *any* join, run `SELECT key, COUNT(*) FROM t GROUP BY key HAVING COUNT(*) > 1 LIMIT 10` on **both** sides. Ten seconds of checking prevents every disaster in this lab.
+- **`EXCEPT DISTINCT` is the elegant alternative** to LEFT JOIN + IS NULL for finding mismatches: `SELECT productSKU FROM website EXCEPT DISTINCT SELECT SKU FROM inventory` returns the 819 missing SKUs in one clean set operation.
+- **Semi/anti-joins with EXISTS:** `WHERE NOT EXISTS (SELECT 1 FROM inventory WHERE inventory.SKU = website.productSKU)` does the same job and can be faster — it stops at the *first* match instead of joining everything.
+- **Exact vs approximate counting:** `COUNT(DISTINCT x)` in BigQuery is exact (unlike some warehouses); on billion-row tables, `APPROX_COUNT_DISTINCT(x)` is dramatically cheaper with ~1% error — a favorite exam trade-off.
+- **Row explosion = bill explosion.** A many-to-many join doesn't just corrupt results, it multiplies *bytes processed*. If a query that should take seconds runs for minutes, suspect a fan-out join before anything else.
+- **Leading-wildcard LIKE (`'%Clearance%'`) can't be optimized** — it forces a full column read. Fine here; on huge tables prefer prefix matches (`'Clearance%'`) or search indexes.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

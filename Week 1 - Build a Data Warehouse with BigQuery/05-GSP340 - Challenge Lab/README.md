@@ -471,6 +471,20 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details worth knowing — especially **challenge-lab strategy**, since this format returns in every skill badge:
+
+- **Read ALL tasks before running anything.** Challenge labs parameterize values per session — *your* expiration days, excluded countries, or table names may differ from any guide (including this one). Always take numbers from **your** lab panel, not from memory.
+- **Progress checks match names exactly.** `covid` ≠ `covid_data` ≠ `Covid`. If a check fails but your query succeeded, suspect a name/location mismatch before suspecting the SQL.
+- **Don't delete-and-recreate datasets after a passed check** — checks can re-verify earlier objectives, and removing them un-passes you.
+- **Query history is your safety net:** every attempt is kept (6 months). Fat-fingered a working query? Recover it from the history panel instead of retyping.
+- **The "one source row" rule generalizes:** any `UPDATE ... FROM` / `MERGE` failure with *"must match at most one source row"* means your source needs `SELECT DISTINCT` or `GROUP BY` + aggregate — the single most valuable debugging reflex from this whole badge.
+- **Verify before you check:** `bq show --format=prettyjson covid.oxford_policy_tracker` confirms partitioning + expiration in seconds — cheaper than waiting on a failed progress check to tell you.
+- **Time budget:** challenge labs are timed with no pause. Do the tasks in order (they chain), but paste all four queries into separate editor tabs *first* so a slow progress check never blocks your typing.
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid

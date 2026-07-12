@@ -241,6 +241,20 @@ gcloud projects add-iam-policy-binding PROJECT_ID \
 
 ---
 
+### 💎 Beyond the Lab — Pro Tips
+
+Extra details the lab doesn't tell you, worth knowing for real work and the certification exam:
+
+- **Who pays for public-dataset queries? You do.** The hosting project pays *storage*; the querying project pays *bytes scanned*. Free tier covers your first 1 TB of scanning per month — and **loading data is free**.
+- **Preview tab ≠ SELECT \*.** The Preview tab is free (it reads stored preview data); `SELECT * LIMIT 10` scans every byte of every column. Get in the Preview habit.
+- **Columns cost money.** BigQuery stores data *by column* (Capacitor format), so cost scales with the columns you SELECT — `SELECT weight_pounds` on natality is dramatically cheaper than `SELECT *`.
+- **Dataset location is permanent.** You can't move a dataset after creation, and queries can't join across regions (the Week 1 labs hit this with `US`). Decide location first, always.
+- **Auto-detect vs explicit schema:** auto-detect samples only ~500 rows to guess types — fine for labs, risky in production. The explicit `name:string,gender:string,count:integer` you typed is the professional habit.
+- **Your work is recoverable:** every query you run is kept in **Query history** (bottom panel) for 6 months, and jobs are auditable — nothing you run in the editor is ever "lost".
+- **Exam tip:** know all the BigQuery access paths cold — console, `bq` CLI, REST API, client libraries — and that BigQuery is *serverless* (no instances to size, unlike Cloud SQL from lab 01).
+
+---
+
 ### 🏁 Summary of the Journey
 
 ```mermaid
