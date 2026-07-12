@@ -29,7 +29,7 @@ This is **lab 6 of the "Derive Insights from BigQuery Data" skill badge** ([cour
 | 04 | [Explore an Ecommerce Dataset with SQL in BigQuery (GSP407)](../04-GSP407%20-%20Explore%20an%20Ecommerce%20Dataset%20with%20SQL%20in%20BigQuery/README.md) | Analyst workflow: metadata → dedup → insights |
 | 05 | [Troubleshooting Common SQL Errors with BigQuery (GSP408)](../05-GSP408%20-%20Troubleshooting%20Common%20SQL%20Errors%20with%20BigQuery/README.md) | Debugging syntax and logic errors |
 | **06** | **Explore and Create Reports with Data Studio (GSP409)** | **Turning BigQuery data into interactive dashboards — zero SQL** |
-| 07 | Derive Insights from BigQuery Data: Challenge Lab (GSP787) | Everything combined, no hand-holding |
+| 07 | [Derive Insights from BigQuery Data: Challenge Lab (GSP787)](../07-GSP787%20-%20Challenge%20Lab/README.md) | Everything combined, no hand-holding |
 
 ### Prerequisites
 

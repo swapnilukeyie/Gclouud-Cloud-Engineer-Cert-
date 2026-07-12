@@ -29,7 +29,7 @@ Hands-on labs, challenge lab solutions, and study notes from Google Cloud Skills
 | 04 | [GSP407 — Explore an Ecommerce Dataset with SQL in BigQuery](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/04-GSP407%20-%20Explore%20an%20Ecommerce%20Dataset%20with%20SQL%20in%20BigQuery/README.md) | Metadata, dedup checks (`HAVING`), CTEs, COUNT variants |
 | 05 | [GSP408 — Troubleshooting Common SQL Errors with BigQuery](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/05-GSP408%20-%20Troubleshooting%20Common%20SQL%20Errors%20with%20BigQuery/README.md) | Syntax vs logic errors, legacy vs standard SQL, WHERE vs HAVING |
 | 06 | [GSP409 — Explore and Create Reports with Data Studio](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/06-GSP409%20-%20Explore%20and%20Create%20Reports%20with%20Data%20Studio/README.md) | Dashboards, BigQuery connector, dimensions vs metrics |
-| 07 | GSP787 — Derive Insights from BigQuery Data: Challenge Lab | *(coming soon)* |
+| 07 | [GSP787 — Derive Insights from BigQuery Data: Challenge Lab](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/07-GSP787%20-%20Challenge%20Lab/README.md) | Window functions (`LAG`/`LEAD`), CTE chains, `POWER`, Data Studio |
 
 Each lab folder contains:
 - **README.md** — beginner-friendly walkthrough with diagrams (rendered automatically by GitHub)
