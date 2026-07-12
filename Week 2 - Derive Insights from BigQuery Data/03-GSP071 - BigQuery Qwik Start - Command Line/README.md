@@ -10,15 +10,16 @@
 2. [The Big Picture — What Is This Lab About?](#2-the-big-picture--what-is-this-lab-about)
 3. [Tools & Services Used in This Lab](#3-tools--services-used-in-this-lab)
 4. [Key Concepts — The bq Command Anatomy](#4-key-concepts--the-bq-command-anatomy)
-5. [Task 1 — Examine a Table](#5-task-1--examine-a-table)
-6. [Task 2 — Run the Help Command](#6-task-2--run-the-help-command)
-7. [Task 3 — Run a Query](#7-task-3--run-a-query)
-8. [Task 4 — Create a New Table](#8-task-4--create-a-new-table)
-9. [Task 5 — Run Queries](#9-task-5--run-queries)
-10. [Task 7 — Clean Up](#10-task-7--clean-up)
-11. [Quiz Answers — All in One Place](#11-quiz-answers--all-in-one-place)
-12. [Quick Reference — All Commands in One Place](#12-quick-reference--all-commands-in-one-place)
-13. [Console Equivalents (the Reverse Mapping)](#13-console-equivalents-the-reverse-mapping)
+5. [Setup — Activate Cloud Shell & Verify Your Session](#5-setup--activate-cloud-shell--verify-your-session)
+6. [Task 1 — Examine a Table](#6-task-1--examine-a-table)
+7. [Task 2 — Run the Help Command](#7-task-2--run-the-help-command)
+8. [Task 3 — Run a Query](#8-task-3--run-a-query)
+9. [Task 4 — Create a New Table](#9-task-4--create-a-new-table)
+10. [Task 5 — Run Queries](#10-task-5--run-queries)
+11. [Task 7 — Clean Up](#11-task-7--clean-up)
+12. [Quiz Answers — All in One Place](#12-quiz-answers--all-in-one-place)
+13. [Quick Reference — All Commands in One Place](#13-quick-reference--all-commands-in-one-place)
+14. [Console Equivalents (the Reverse Mapping)](#14-console-equivalents-the-reverse-mapping)
 
 ---
 
@@ -108,7 +109,69 @@ bq  <action>  <target>  [flags/arguments]
 
 ---
 
-## 5. Task 1 — Examine a Table
+## 5. Setup — Activate Cloud Shell & Verify Your Session
+
+Before any `bq` command works, get your terminal ready. This takes under a minute:
+
+### Step 1 — Activate Cloud Shell
+
+1. Look at the **top right** of the Google Cloud console.
+2. Click the **Activate Cloud Shell** icon (it looks like a small terminal prompt: `>_`).
+
+### Step 2 — Authorize your session
+
+1. A Cloud Shell information window appears at the bottom of the screen — click **Continue**.
+2. When prompted, click **Authorize** to allow Cloud Shell to use your credentials for Google Cloud API calls.
+
+> 📌 Behind the scenes, Cloud Shell provisions a **temporary virtual machine** for you, with a **persistent 5 GB home directory** and developer tools like `gcloud` and `bq` pre-installed. When it connects, it prints the project it's pointed at: `Your Cloud Platform project in this session is set to <PROJECT_ID>`.
+
+### Step 3 — Verify your active account
+
+```bash
+gcloud auth list
+```
+
+Expected output (the `*` marks the active account — it should be your **student** account, not a personal one):
+
+```
+ACTIVE: *
+ACCOUNT: student-XX-xxxxxxxxxxxx@qwiklabs.net
+```
+
+### Step 4 — Verify your project
+
+```bash
+gcloud config list project
+```
+
+Expected output:
+
+```
+[core]
+project = qwiklabs-gcp-XX-xxxxxxxxxxxx
+```
+
+If both match your Lab setup panel, you're authenticated and pointed at the right project — ready to run commands. ✅
+
+### 🧰 Project & auth basics (beyond this lab)
+
+The verify commands above are half of a small toolkit worth memorizing:
+
+| What you want | Command |
+|---|---|
+| Who am I signed in as? | `gcloud auth list` |
+| Which project am I in? | `gcloud config list project` (or `gcloud config get-value project`) |
+| **List all projects** I can access | `gcloud projects list` |
+| **Select / switch project** | `gcloud config set project PROJECT_ID` |
+| Switch the active **account** | `gcloud config set account ACCOUNT_EMAIL` |
+| Sign in (outside Cloud Shell, e.g. your laptop) | `gcloud auth login` — Cloud Shell skips this because you're already authenticated |
+| See the full current config | `gcloud config list` |
+
+> 💡 In Qwiklabs, Cloud Shell arrives pre-authenticated and pre-pointed at the lab project — but on a real machine, `gcloud auth login` + `gcloud config set project` is *always* your first move.
+
+---
+
+## 6. Task 1 — Examine a Table
 
 ```bash
 bq show bigquery-public-data:samples.shakespeare
@@ -130,7 +193,7 @@ So: 164,656 distinct (word, play) entries — `word_count` is how often that wor
 
 ---
 
-## 6. Task 2 — Run the Help Command
+## 7. Task 2 — Run the Help Command
 
 ```bash
 bq help query    # manual for the query command specifically
@@ -141,7 +204,7 @@ Get in the habit — `bq help <command>` answers most "what flag was that?" ques
 
 ---
 
-## 7. Task 3 — Run a Query
+## 8. Task 3 — Run a Query
 
 ### 🎯 What we must achieve
 
@@ -195,7 +258,7 @@ bq query --use_legacy_sql=false \
 
 ---
 
-## 8. Task 4 — Create a New Table
+## 9. Task 4 — Create a New Table
 
 ### 🎯 What we must achieve
 
@@ -256,7 +319,7 @@ bq show babynames.names2010
 
 ---
 
-## 9. Task 5 — Run Queries
+## 10. Task 5 — Run Queries
 
 **Top 5 most popular girls' names of 2010:**
 
@@ -284,7 +347,7 @@ bq query "SELECT name,count FROM babynames.names2010 WHERE gender = 'M' ORDER BY
 
 ---
 
-## 10. Task 7 — Clean Up
+## 11. Task 7 — Clean Up
 
 ```bash
 bq rm -r babynames
@@ -296,7 +359,7 @@ Confirm with `Y`. The `-r` (recursive) flag deletes the dataset **and every tabl
 
 ---
 
-## 11. Quiz Answers — All in One Place
+## 12. Quiz Answers — All in One Place
 
 | # | Question | Answer |
 |---|---|---|
@@ -307,12 +370,14 @@ Confirm with `Y`. The `-r` (recursive) flag deletes the dataset **and every tabl
 
 ---
 
-## 12. Quick Reference — All Commands in One Place
+## 13. Quick Reference — All Commands in One Place
 
 ```bash
-# setup checks
-gcloud auth list
-gcloud config list project
+# setup checks (Cloud Shell: >_ icon -> Continue -> Authorize)
+gcloud auth list                        # active account
+gcloud config list project              # current project
+gcloud projects list                    # all projects you can access
+gcloud config set project PROJECT_ID    # select / switch project
 
 # Task 1: inspect a schema
 bq show bigquery-public-data:samples.shakespeare
@@ -351,7 +416,7 @@ bq rm -r babynames
 
 ---
 
-## 13. Console Equivalents (the Reverse Mapping)
+## 14. Console Equivalents (the Reverse Mapping)
 
 Other labs' guides map *UI steps → CLI*. This lab **is** the CLI — so here's the mirror, mapping each command back to the console buttons you used in [lab 02](../02-GSP072%20-%20BigQuery%20Qwik%20Start%20-%20Console/README.md):
 

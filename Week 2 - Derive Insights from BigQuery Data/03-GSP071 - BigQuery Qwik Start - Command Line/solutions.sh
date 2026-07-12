@@ -7,10 +7,21 @@
 
 
 # ----------------------------------------------------------------------------
-# SETUP: confirm identity and project (optional but good habit).
+# SETUP: activate Cloud Shell first (console top-right >_ icon, then
+# Continue -> Authorize; it provisions a temp VM with a persistent 5GB
+# home dir and gcloud/bq pre-installed).
+# Then confirm identity and project — expected: your student account and
+# the qwiklabs-gcp-XX-... project from the Lab setup panel.
 # ----------------------------------------------------------------------------
-gcloud auth list
-gcloud config list project
+gcloud auth list            # ACTIVE: * ACCOUNT: student-XX-...@qwiklabs.net
+gcloud config list project  # [core] project = qwiklabs-gcp-XX-...
+
+# Broader project/auth basics (not needed in Cloud Shell, but essential
+# on a real machine where nothing is pre-configured):
+#   gcloud projects list                    # all projects you can access
+#   gcloud config set project PROJECT_ID    # select / switch project
+#   gcloud config set account ACCOUNT_EMAIL # switch account
+#   gcloud auth login                       # sign in (outside Cloud Shell)
 
 
 # ----------------------------------------------------------------------------
