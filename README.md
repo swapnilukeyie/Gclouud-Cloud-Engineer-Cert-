@@ -26,7 +26,7 @@ Hands-on labs, challenge lab solutions, and study notes from Google Cloud Skills
 | 01 | [GSP281 — Introduction to SQL for BigQuery and Cloud SQL](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/01-GSP281%20-%20Introduction%20to%20SQL%20for%20BigQuery%20and%20Cloud%20SQL/README.md) | SQL fundamentals, Cloud Storage staging, Cloud SQL (MySQL) |
 | 02 | [GSP072 — BigQuery Qwik Start - Console](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/02-GSP072%20-%20BigQuery%20Qwik%20Start%20-%20Console/README.md) | Public datasets, dataset creation, loading CSV from GCS |
 | 03 | [GSP071 — BigQuery Qwik Start - Command Line](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/03-GSP071%20-%20BigQuery%20Qwik%20Start%20-%20Command%20Line/README.md) | The `bq` CLI: show, query, mk, load, rm |
-| 04 | GSP407 — Explore an Ecommerce Dataset with SQL in BigQuery | *(coming soon)* |
+| 04 | [GSP407 — Explore an Ecommerce Dataset with SQL in BigQuery](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/04-GSP407%20-%20Explore%20an%20Ecommerce%20Dataset%20with%20SQL%20in%20BigQuery/README.md) | Metadata, dedup checks (`HAVING`), CTEs, COUNT variants |
 | 05 | GSP408 — Troubleshooting Common SQL Errors with BigQuery | *(coming soon)* |
 | 06 | GSP409 — Explore and Create Reports with Data Studio | *(coming soon)* |
 | 07 | GSP787 — Derive Insights from BigQuery Data: Challenge Lab | *(coming soon)* |

@@ -33,7 +33,7 @@ This is **lab 1 of the "Derive Insights from BigQuery Data" skill badge** ([cour
 | **01** | **Introduction to SQL for BigQuery and Cloud SQL (GSP281)** | **SQL fundamentals, BigQuery console, Cloud SQL basics** |
 | 02 | [BigQuery: Qwik Start - Console (GSP072)](../02-GSP072%20-%20BigQuery%20Qwik%20Start%20-%20Console/README.md) | Querying public tables via the web UI |
 | 03 | [BigQuery: Qwik Start - Command Line (GSP071)](../03-GSP071%20-%20BigQuery%20Qwik%20Start%20-%20Command%20Line/README.md) | The `bq` command-line tool |
-| 04 | Explore an Ecommerce Dataset with SQL in BigQuery (GSP407) | Real-world exploratory analysis |
+| 04 | [Explore an Ecommerce Dataset with SQL in BigQuery (GSP407)](../04-GSP407%20-%20Explore%20an%20Ecommerce%20Dataset%20with%20SQL%20in%20BigQuery/README.md) | Real-world exploratory analysis |
 | 05 | Troubleshooting Common SQL Errors with BigQuery (GSP408) | Debugging syntax and logic errors |
 | 06 | Explore and Create Reports with Data Studio (GSP409) | Visualizing BigQuery data |
 | 07 | Derive Insights from BigQuery Data: Challenge Lab (GSP787) | Everything combined, no hand-holding |
