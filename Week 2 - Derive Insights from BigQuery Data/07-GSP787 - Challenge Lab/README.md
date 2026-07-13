@@ -79,7 +79,6 @@ flowchart TD
 
 ## 3. Task 1 — Total Confirmed Cases
 
-### 🎯 The question
 
 *"What was the total count of confirmed cases on `<DATE>`?"* — one row, one column named `total_cases_worldwide`.
 
@@ -104,7 +103,6 @@ WHERE
 
 ## 4. Task 2 — Worst Affected Areas
 
-### 🎯 The question
 
 *"How many states in the US had more than `<DEATH_COUNT>` deaths on `<DATE>`?"* — output field `count_of_states`, exclude NULLs.
 
@@ -139,7 +137,6 @@ WHERE death_count > <DEATH_COUNT>       -- e.g. 300
 
 ## 5. Task 3 — Identify Hotspots
 
-### 🎯 The question
 
 *"List all US states with more than `<CONFIRMED_CASES>` confirmed cases on `<DATE>`"* — fields `state` and `total_confirmed_cases`, descending. Note: this task filters on **`country_code`**!
 
@@ -164,7 +161,6 @@ The `HAVING` (not `WHERE`!) filters the aggregated totals — exactly the trap l
 
 ## 6. Task 4 — Fatality Ratio
 
-### 🎯 The question
 
 *"What was the case-fatality ratio in Italy for `<MONTH>` 2020?"* — fields `total_confirmed_cases`, `total_deaths`, `case_fatality_ratio` where ratio = (deaths / confirmed) × 100.
 
@@ -188,7 +184,6 @@ WHERE
 
 ## 7. Task 5 — Identify a Specific Day
 
-### 🎯 The question
 
 *"On what day did total deaths cross `<DEATH_COUNT>` in Italy?"* — return the date as yyyy-mm-dd.
 
@@ -263,7 +258,6 @@ WHERE net_new_cases = 0
 
 ## 9. Task 7 — Doubling Rate
 
-### 🎯 The question
 
 Using Task 6 as a template: US dates between **2020-03-22 and 2020-04-20** where confirmed cases grew more than `<LIMIT_VALUE>`% over the previous day. Exact output names: `Date`, `Confirmed_Cases_On_Day`, `Confirmed_Cases_Previous_Day`, `Percentage_Increase_In_Cases`.
 
@@ -306,7 +300,6 @@ Same LAG skeleton as Task 6, plus one more derived column: **percentage growth**
 
 ## 10. Task 8 — Recovery Rate
 
-### 🎯 The question
 
 Recovery rates on **2020-05-10**, descending, limited to `<LIMIT_VALUE>` rows, only countries with **> 50K confirmed cases**. Fields: `country`, `recovered_cases`, `confirmed_cases`, `recovery_rate`.
 
