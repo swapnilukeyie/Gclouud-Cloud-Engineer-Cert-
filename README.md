@@ -38,7 +38,7 @@ Hands-on labs, challenge lab solutions, and study notes from Google Cloud Skills
 | # | Lab | Topics |
 |---|---|---|
 | 01 | [GSP096 — Pub/Sub: Qwik Start - Console](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/01-GSP096%20-%20Pub%20Sub%20Qwik%20Start%20-%20Console/README.md) | Topics, subscriptions, publish & pull, ack deadlines |
-| 02 | [GSP072 — BigQuery: Qwik Start - Console](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/02-GSP072%20-%20BigQuery%20Qwik%20Start%20-%20Console/README.md) | ✅ Repeat of Week 2 lab 02 — pointer + re-run checklist |
+| 02 | [GSP072 — BigQuery: Qwik Start - Console](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/02-GSP072%20-%20BigQuery%20Qwik%20Start%20-%20Console/README.md) | Repeat of Week 2 lab 02 — pointer + re-run checklist |
 | 03 | [GSP192 — Dataflow: Qwik Start - Templates](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/03-GSP192%20-%20Dataflow%20Qwik%20Start%20-%20Templates/README.md) | Streaming pipeline, templates, Pub/Sub → BigQuery |
 | 04 | GSP903 — Streaming Analytics into BigQuery: Challenge Lab | *(coming soon)* |
 
