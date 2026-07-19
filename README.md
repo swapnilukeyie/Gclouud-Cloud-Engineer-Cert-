@@ -46,7 +46,7 @@ Hands-on labs, challenge lab solutions, and study notes from Google Cloud Skills
 
 | # | Lab | Topics |
 |---|---|---|
-| 01 | Build Multi-Agent Systems with ADK | *(coming soon)* |
+| 01 | [GENAI106 — Build Multi-Agent Systems with ADK](./Week%203%20-%20Deploy%20an%20Agent%20with%20ADK/01-GENAI106%20-%20Build%20Multi-Agent%20Systems%20with%20ADK/README.md) | Agent hierarchy, session state, Sequential/Loop/Parallel agents |
 | 02 | Connect to Remote Agents with ADK and the A2A SDK | *(coming soon)* |
 | 03 | Use Model Context Protocol (MCP) Tools with ADK Agents | *(coming soon)* |
 | 04 | Deploy an Agent with ADK: Challenge Lab | *(coming soon)* |
