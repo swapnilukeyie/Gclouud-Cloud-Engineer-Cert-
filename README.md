@@ -8,6 +8,8 @@ Hands-on labs, challenge lab solutions, and study notes from Google Cloud Skills
 |---|---|---|
 | Week 1 | [Build a Data Warehouse with BigQuery](https://www.cloudskillsboost.google/course_templates/624) | [`Week 1 - Build a Data Warehouse with BigQuery`](./Week%201%20-%20Build%20a%20Data%20Warehouse%20with%20BigQuery) |
 | Week 2 | [Derive Insights from BigQuery Data](https://www.cloudskillsboost.google/course_templates/623) | [`Week 2 - Derive Insights from BigQuery Data`](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data) |
+| Week 3 | [Streaming Analytics into BigQuery](https://www.cloudskillsboost.google/course_templates/752) | `Week 3 - Streaming Analytics into BigQuery` |
+| Week 3 | Deploy an Agent with Agent Development Kit (ADK) | `Week 3 - Deploy an Agent with ADK` |
 
 ### Week 1 labs
 
@@ -30,6 +32,24 @@ Hands-on labs, challenge lab solutions, and study notes from Google Cloud Skills
 | 05 | [GSP408 — Troubleshooting Common SQL Errors with BigQuery](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/05-GSP408%20-%20Troubleshooting%20Common%20SQL%20Errors%20with%20BigQuery/README.md) | Syntax vs logic errors, legacy vs standard SQL, WHERE vs HAVING |
 | 06 | [GSP409 — Explore and Create Reports with Data Studio](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/06-GSP409%20-%20Explore%20and%20Create%20Reports%20with%20Data%20Studio/README.md) | Dashboards, BigQuery connector, dimensions vs metrics |
 | 07 | [GSP787 — Derive Insights from BigQuery Data: Challenge Lab](./Week%202%20-%20Derive%20Insights%20from%20BigQuery%20Data/07-GSP787%20-%20Challenge%20Lab/README.md) | Window functions (`LAG`/`LEAD`), CTE chains, `POWER`, Data Studio |
+
+### Week 3 labs — Streaming Analytics into BigQuery
+
+| # | Lab | Topics |
+|---|---|---|
+| 01 | [GSP096 — Pub/Sub: Qwik Start - Console](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/01-GSP096%20-%20Pub%20Sub%20Qwik%20Start%20-%20Console/README.md) | Topics, subscriptions, publish & pull, ack deadlines |
+| 02 | [GSP072 — BigQuery: Qwik Start - Console](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/02-GSP072%20-%20BigQuery%20Qwik%20Start%20-%20Console/README.md) | ✅ Repeat of Week 2 lab 02 — pointer + re-run checklist |
+| 03 | [GSP192 — Dataflow: Qwik Start - Templates](./Week%203%20-%20Streaming%20Analytics%20into%20BigQuery/03-GSP192%20-%20Dataflow%20Qwik%20Start%20-%20Templates/README.md) | Streaming pipeline, templates, Pub/Sub → BigQuery |
+| 04 | GSP903 — Streaming Analytics into BigQuery: Challenge Lab | *(coming soon)* |
+
+### Week 3 labs — Deploy an Agent with ADK
+
+| # | Lab | Topics |
+|---|---|---|
+| 01 | Build Multi-Agent Systems with ADK | *(coming soon)* |
+| 02 | Connect to Remote Agents with ADK and the A2A SDK | *(coming soon)* |
+| 03 | Use Model Context Protocol (MCP) Tools with ADK Agents | *(coming soon)* |
+| 04 | Deploy an Agent with ADK: Challenge Lab | *(coming soon)* |
 
 Each lab folder contains:
 - **README.md** — beginner-friendly walkthrough with diagrams (rendered automatically by GitHub)
